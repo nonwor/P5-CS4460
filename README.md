@@ -1,6 +1,6 @@
 ��# P5-CS4460
-College Data
-Scatter Plot with cost in the Y axis and raking/test-scores/admission rate in the X axis. 
+<br /> College Data.
+<br /> Scatter Plot with cost in the Y axis and raking/test-scores/admission rate in the X axis. 
 
 Main Display:
 Squares = private college
