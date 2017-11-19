@@ -9,13 +9,13 @@
 
 <br />Interactions:
 <br />  Filter by:
-<br />   private/public
-<br />    locale
-<br />    region
+<br />   -private/public
+<br />    -locale
+<br />    -region
 <br />  Hover:
-<br />    ROI
-<br />    Debt
-<br />    etc
+<br />    -ROI
+<br />    -Debt
+<br />    -etc
 <br />  Soom with mouse scroll
 
 <br /> Nice to have:
