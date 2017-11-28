@@ -1,6 +1,5 @@
 //
-console.log('running 2');
-
+console.log('running 3');
 
 var svg = d3.select('svg');
 
@@ -87,7 +86,7 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		.attr('cy', function(d){
 			return yScale(d['Average Cost'])
 		})
-		.attr('transform', 'translate(50,50)')
+		.attr('transform', 'translate(100, 60)')
 		.style('fill', function(d){
 			//console.log(d.Region);
 			if (d.Region == "Far West") return 'aquamarine' ;
@@ -120,7 +119,7 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		.attr('y', function(d){
 			return yScale(d['Average Cost'])
 		})
-		.attr('transform', 'translate(50,50)')
+		.attr('transform', 'translate(100,50)')
 		.style('fill', function(d){
 			//console.log(d.Region);
 			if (d.Region == "Far West") return 'aquamarine' ;
@@ -135,6 +134,25 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		})
 	    .attr('fill-opacity', 0.7);
 
+	var xLine = svg.append('g') /////////// x-axis 
+	    	.attr('class', 'x axis')
+	    	.attr('transform', 'translate(100,560)')
+	    	.call(d3.axisBottom(xScale));
+
+	var yLine = svg.append('g')
+		.attr('class', 'y axis')
+		.attr('transform', 'translate(100,60)')
+		.call(d3.axisLeft(yScale));
+
+	svg.append('text')
+        .attr('class', 'x axis-label')
+        .attr('transform', 'translate(350,590)')
+        .text('Prestige via acceptance rate');
+
+    svg.append('text')
+        .attr('class', 'y axis-label')
+        .attr('transform', 'translate(50,400) rotate(270)')
+        .text('Cost to attend per semester in USD');
 
 });
 
