@@ -1,5 +1,5 @@
 //
-console.log('running 3');
+console.log('running 1');
 
 var svg = d3.select('svg');
 
@@ -108,10 +108,11 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		.attr('class', 'college')
 		.attr('width', function(d){
 			console.log('test');
-			return rScale(d['Undergrad Population']);
+			console.log(rScale(d['Undergrad Population']));
+			return rScale(d['Undergrad Population']*2);
 		})
 		.attr('height', function(d){
-			return rScale(d['Undergrad Population']);
+			return rScale(d['Undergrad Population']*2);
 		})
 		.attr('x', function(d){
 			return xScale(d['Admission Rate']);
@@ -134,12 +135,12 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		})
 	    .attr('fill-opacity', 0.7);
 
-	var xLine = svg.append('g') /////////// x-axis 
+	var xLine = svg.append('g') /////////// x-label
 	    	.attr('class', 'x axis')
 	    	.attr('transform', 'translate(100,560)')
 	    	.call(d3.axisBottom(xScale));
 
-	var yLine = svg.append('g')
+	var yLine = svg.append('g') //////// y-label
 		.attr('class', 'y axis')
 		.attr('transform', 'translate(100,60)')
 		.call(d3.axisLeft(yScale));
