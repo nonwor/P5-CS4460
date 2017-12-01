@@ -74,6 +74,10 @@ label {
     stroke: #555;
 }
 
+.legend rect {
+    stroke: #555;
+}
+
 .legend text {
     font-family: "Open Sans";
     font-size: 12px;
