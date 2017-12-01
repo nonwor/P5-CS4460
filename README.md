@@ -1,4 +1,4 @@
-��# P5-CS4460
+﻿��# P5-CS4460
 <br /> College Data.
 <br /> Scatter Plot with cost in the Y axis and raking/test-scores/admission rate in the X axis. 
 
@@ -13,10 +13,10 @@
 <br />    -locale
 <br />    -region
 <br />  Hover:
-<br />    -ROI
-<br />    -Debt
+<br />    -Mean Earnings 8 Years After Enrollment
+<br />    -Median Debt
 <br />    -etc
-<br />  Soom with mouse scroll
+<br />  Zoom with mouse scroll
 
 <br /> Nice to have:
 <br /> filter with X and Y scale
