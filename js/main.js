@@ -16,6 +16,18 @@ var yScale = d3.scaleLinear()
 var rScale = d3.scaleSqrt()
 	.range([1,15]);
 
+var toolTip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([-12, 0])
+    .html(function(d) {
+        return "<h5>"+d['Name']+"</h5><table><thead><tr><td colspan='2'>Mean Earnings 8 Years After Entry</td><td>Median Debt</td></tr></thead>"
+             + "<tbody><tr><td colspan='2'>"+d['Mean Earnings 8 years After Entry']+"</td><td>"+d['Median Debt']+"</td></tr></tbody>"
+             + "<thead><tr><td colspan='2'>Undergrad Population</td><td colspan='2'>Locale</td></tr></thead>"
+             + "<tbody><tr><td colspan='2'>"+d['Undergrad Population']+"</td><td colspan='2'>"+d['Locale']+"</td></tr></tbody></table>"
+    });
+
+svg.call(toolTip); 
+
 // color by by region. 9 regions 
 // var colorScale = d3.scaleQuantize()
 // 	.range(['aquamarine','beige','lightsalmon','lightseagreen'
@@ -101,6 +113,9 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		})
 	    .attr('fill-opacity', 0.7);
 
+	publicObj.on('mouseover', toolTip.show)
+    	.on('mouseout', toolTip.hide);
+
 	var privateObj = svg.selectAll('.Name')  ////////creating private plot
 		.data(privateCollege)
 		.enter()
@@ -134,6 +149,9 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 			if (d.Region == "Southwest") return 'crimson';
 		})
 	    .attr('fill-opacity', 0.7);
+
+	privateObj.on('mouseover', toolTip.show)
+    	.on('mouseout', toolTip.hide);
 
 	var xLine = svg.append('g') /////////// x-label
 	    	.attr('class', 'x axis')
