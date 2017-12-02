@@ -1,7 +1,11 @@
 //
 console.log('running 1');
 
-var svg = d3.select('svg');
+var svg = d3.select('svg'),
+	width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var transform = d3.zoomIdentity;
 
 // X scale is for the "presiage score of the college" 
 var xScale = d3.scaleLinear()
@@ -35,6 +39,62 @@ svg.call(toolTip);
 
 //Set var for Zoom**************************************************************************
 
+// var xLine = svg /////////// x-label
+// 	    	.attr('class', 'x axis')
+// 	    	.attr('transform', 'translate(100,560)')
+// 	    	.call(d3.axisBottom(xScale));
+
+// var yLine = svg //////// y-label
+// 		.attr('class', 'y axis')
+// 		.attr('transform', 'translate(100,60)')
+// 		.call(d3.axisLeft(yScale));
+
+// var zoom2 = d3.zoom()
+//     .scaleExtent([1, 40])
+//     .translateExtent([[-100, -100], [width + 90, height + 100]])
+//     .on("zoom", zoomed2);
+
+// var x = d3.scaleLinear()
+//     .domain([0, 1])
+//     .range([0, 700]);
+
+// var y = d3.scaleLinear()
+//     .domain([0, 70000])
+//     .range([0, 500]);
+
+// var xAxis = d3.axisBottom(x)
+//     .ticks((width + 2) / (height + 2) * 10)
+//     .tickSize(height)
+//     .tickPadding(8 - height);
+
+// var yAxis = d3.axisRight(y)
+//     .ticks(10)
+//     .tickSize(width)
+//     .tickPadding(8 - width);
+
+// var view = svg.append("rect")
+//     .attr("class", "view")
+//     .attr("x", 0.5)
+//     .attr("y", 0.5)
+//     .attr("width", width - 1)
+//     .attr("height", height - 1);
+
+// var gX = svg.append("g")
+//     .attr('class', 'x axis')
+// 	.attr('transform', 'translate(100,560)')
+// 	.call(d3.axisBottom(x));
+
+// var gY = svg.append("g")
+//     .attr('class', 'y axis')
+//     .attr('transform', 'translate(100,60)')
+// 	.call(d3.axisLeft(y));
+
+// svg.call(zoom2);
+
+// function zoomed2() {
+//   gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
+//   gY.call(yAxis.scale(d3.event.transform.rescaleY(y)));
+// }
 
 
 //end of zoom*********************************************************************************
@@ -73,13 +133,13 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 	var costToAttend = d3.extent(colleges, function(d){
 		return +d['Average Cost'];
 	});
-	console.log(costToAttend);
+	//console.log(costToAttend);
 	yScale.domain(costToAttend);
 
 	var adminRate = d3.extent(colleges, function(d){
 		return +d['Admission Rate'];
 	});
-	console.log(adminRate[1],adminRate[0]);
+	//console.log(adminRate[1],adminRate[0]);
 	xScale.domain(adminRate);
 
 	///*******************************************************************
@@ -111,7 +171,9 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 			if (d.Region == "Southeast") return 'burlywood';
 			if (d.Region == "Southwest") return 'crimson';
 		})
-	    .attr('fill-opacity', 0.7);
+	    .attr('fill-opacity', 0.7)
+	    .call(d3.drag()
+        .on("drag", dragged));
 
 	publicObj.on('mouseover', toolTip.show)
     	.on('mouseout', toolTip.hide);
@@ -122,8 +184,8 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		.append('rect')
 		.attr('class', 'college')
 		.attr('width', function(d){
-			console.log('test');
-			console.log(rScale(d['Undergrad Population']));
+			//console.log('test');
+			//console.log(rScale(d['Undergrad Population']));
 			return rScale(d['Undergrad Population']*2);
 		})
 		.attr('height', function(d){
@@ -148,7 +210,9 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 			if (d.Region == "Southeast") return 'burlywood';
 			if (d.Region == "Southwest") return 'crimson';
 		})
-	    .attr('fill-opacity', 0.7);
+	    .attr('fill-opacity', 0.7)
+	    .call(d3.drag()
+        .on("drag", dragged));
 
 	privateObj.on('mouseover', toolTip.show)
     	.on('mouseout', toolTip.hide);
@@ -163,15 +227,44 @@ d3.csv('./data/colleges.csv', function(error, dataset){
 		.attr('transform', 'translate(100,60)')
 		.call(d3.axisLeft(yScale));
 
-	svg.append('text')
+
+    svg.call(d3.zoom()
+    .scaleExtent([1 / 2, 8])
+    .translateExtent([[-100, -100], [width + 90, height + 100]])
+    .on("zoom", zoomed));
+
+	function zoomed() {
+		publicObj.attr("transform", d3.event.transform);
+		privateObj.attr("transform", d3.event.transform);
+
+		xLine.attr("transform", d3.event.transform);
+		yLine.attr("transform", d3.event.transform);
+	}
+
+	function dragged(d) {	
+	  //d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+	  //d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+	}
+});
+
+var xLabelText = svg.append('text')
         .attr('class', 'x axis-label')
         .attr('transform', 'translate(350,590)')
         .text('Prestige via acceptance rate');
 
-    svg.append('text')
+var yLabelText = svg.append('text')
         .attr('class', 'y axis-label')
         .attr('transform', 'translate(50,400) rotate(270)')
         .text('Cost to attend per semester in USD');
 
-});
+// var xLine = svg.append('g') /////////// x-label
+// 	    	.attr('class', 'x axis')
+// 	    	.attr('transform', 'translate(100,560)')
+// 	    	.call(d3.axisBottom(xScale));
+
+// var yLine = svg.append('g') //////// y-label
+// 		.attr('class', 'y axis')
+// 		.attr('transform', 'translate(100,60)')
+// 		.call(d3.axisLeft(yScale));
+
 
